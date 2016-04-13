@@ -1,0 +1,16 @@
+Library
+
+// One user checks out one book
+1
+56754
+1592402038
+
+// List stock. Verify the last book in the list is 375703768.
+3
+
+// List checked out. Verify the only book is 1592402038.
+4
+56754
+
+// Exit
+5

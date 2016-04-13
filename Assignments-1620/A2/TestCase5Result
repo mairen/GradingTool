@@ -1,0 +1,760 @@
+
+
+Main Menu
+
+No Employees.
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 2
+
+1. Hourly
+2. Salary
+3. Commission
+
+Enter Choice: 1
+
+Enter Last Name: Bcc
+Enter First Name: Acc
+Enter Middle Initial: M
+Enter Gender: M
+Enter Employee Number: 10000
+Full Time? (y/n): y
+Enter wage: 11.12
+
+
+Main Menu
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 0.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 2
+
+1. Hourly
+2. Salary
+3. Commission
+
+Enter Choice: 2
+
+Enter Last Name: Acc
+Enter First Name: Acc
+Enter Middle Initial: M
+Enter Gender: M
+Enter Employee Number: 10100
+Full Time? (y/n): y
+Enter salary: 52000
+
+
+Main Menu
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 0.00
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 2
+
+1. Hourly
+2. Salary
+3. Commission
+
+Enter Choice: 3
+
+Enter Last Name: Bcc
+Enter First Name: Acc
+Enter Middle Initial: M
+Enter Gender: g
+Enter Employee Number: 10200
+Full Time? (y/n): y
+Enter rate: 3.5
+
+
+Main Menu
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 0.00
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 0.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 2
+
+1. Hourly
+2. Salary
+3. Commission
+
+Enter Choice: 2
+
+Enter Last Name: Accd
+Enter First Name: Accd
+Enter Middle Initial: M
+Enter Gender: F
+Enter Employee Number: 10100
+Full Time? (y/n): y
+Enter salary: 520000
+
+Duplicate employee ID found: 10100. Employee Accd, Accd has not been added.
+
+
+Main Menu
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 0.00
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 0.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 4
+
+1. Sort by Employee Number
+2. Sort by Name
+
+Enter Choice: 2
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 0.00
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 0.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 1
+
+1. Hourly Employees
+2. Salary Employees
+3. Commission Employees
+4. Back
+
+Enter Choice: 1
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 0.00
+
+1. Add Hours
+2. Back
+
+Enter Choice: 1
+
+Employee Number: 10000
+Enter Hours: 42.50
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+
+1. Add Hours
+2. Back
+
+Enter Choice: 2
+
+1. Hourly Employees
+2. Salary Employees
+3. Commission Employees
+4. Back
+
+Enter Choice: 4
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 0.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 1
+
+1. Hourly Employees
+2. Salary Employees
+3. Commission Employees
+4. Back
+
+Enter Choice: 2
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+1. Back
+
+Enter Choice: 1
+
+1. Hourly Employees
+2. Salary Employees
+3. Commission Employees
+4. Back
+
+Enter Choice: 4
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 0.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 1
+
+1. Hourly Employees
+2. Salary Employees
+3. Commission Employees
+4. Back
+
+Enter Choice: 3
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 0.00
+
+1. Add Sales
+2. Back
+
+Enter Choice: 1
+Employee Number: 
+10200
+Enter Sales: 100000
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+
+1. Add Sales
+2. Back
+
+Enter Choice: 2
+
+1. Hourly Employees
+2. Salary Employees
+3. Commission Employees
+4. Back
+
+Enter Choice: 4
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 5
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+Payout Amount: 1000.00
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+Payout Amount: 500.40
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+Payout Amount: 3500.00
+
+Total weekly payout is 5000.40
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 2
+
+1. Hourly
+2. Salary
+3. Commission
+
+Enter Choice: 2
+
+Enter Last Name: dcc
+Enter First Name: Acc
+Enter Middle Initial: M
+Enter Gender: M
+Enter Employee Number: 10150
+Full Time? (y/n): n
+Enter salary: 52000
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+
+10150
+dcc, Acc M.
+Gender: M
+Status: Part Time
+Salary: 52000.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 4
+
+1. Sort by Employee Number
+2. Sort by Name
+
+Enter Choice: 1
+
+
+Main Menu
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10150
+dcc, Acc M.
+Gender: M
+Status: Part Time
+Salary: 52000.00
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 4
+
+1. Sort by Employee Number
+2. Sort by Name
+
+Enter Choice: 2
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10000
+Bcc, Acc M.
+Gender: M
+Status: Full Time
+Wage: 11.12
+Hours Worked: 42.50
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+
+10150
+dcc, Acc M.
+Gender: M
+Status: Part Time
+Salary: 52000.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 3
+Enter Employee Number to Remove: 10000
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+
+10150
+dcc, Acc M.
+Gender: M
+Status: Part Time
+Salary: 52000.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 5
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+Payout Amount: 1000.00
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+Payout Amount: 3500.00
+
+10150
+dcc, Acc M.
+Gender: M
+Status: Part Time
+Salary: 52000.00
+Payout Amount: 1000.00
+
+Total weekly payout is 5500.00
+
+
+Main Menu
+
+10100
+Acc, Acc M.
+Gender: M
+Status: Full Time
+Salary: 52000.00
+
+10200
+Bcc, Acc M.
+Gender: F
+Status: Full Time
+Rate: 3.50
+Sales: 100000.00
+
+10150
+dcc, Acc M.
+Gender: M
+Status: Part Time
+Salary: 52000.00
+
+
+1. Employee Submenu
+2. Add Employee
+3. Remove Employee
+4. Sort Employees
+5. Calculate Weekly Payout
+6. Calculate Bonus
+7. Annual Raises
+8. Reset Week
+9. Quit
+
+Enter Choice: 9
+
+Thank you for using the Employee Manager!

@@ -1,0 +1,15 @@
+I cannot grade your submission due to incomplete honor pledge.I cannot compile your code.
+Unfinished.
+Unimplemented.
+Do not have description of the program in header.
+Code Formatting: Inconsistent Indentation.
+Mismatch UML.
+Missing method doc.
+Incorrect method doc.
+Did not try/catch InputMismatchException.
+Did not use the returned Boolean value.
+Did not try/catch.
+Did not throw exception.
+You should not try/catch the exception you are throwing.
+Your output does not match given sample exactly.
+Did not set nextNode to null.

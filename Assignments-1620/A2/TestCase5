@@ -1,0 +1,108 @@
+EmployeeDriver
+
+// Add an hourly employee
+2
+1
+Bcc
+Acc
+M
+M
+10000
+y
+11.12
+
+// Add a salary employee
+2
+2
+Acc
+Acc
+M
+M
+10100
+y
+52000
+
+// Add a commission employee
+2
+3
+Bcc
+Acc
+M
+g
+10200
+y
+3.5
+
+// Add a duplicated(employee number) salary employee
+2
+2
+Accd
+Accd
+M
+F
+10100
+y
+520000
+
+// Sort by name
+4
+2
+
+// List hourly
+1
+1
+
+// Add hours
+1
+10000
+42.50
+2
+4
+
+// List salary
+1
+2
+1
+4
+
+// List commission
+1
+3
+// Add sales
+1
+10200
+100000
+2
+4
+
+// Calcalate weekly payout, correct result is $5000.40
+5
+
+// Add another salary employee
+2
+2
+dcc
+Acc
+M
+M
+10150
+n
+52000
+
+// Sort by employee number
+4
+1
+
+// Sort by name
+4
+2
+
+// Remove employee 10000
+3
+10000
+
+// Calcalate weekly payout, correct result is $5500.00
+5
+
+// Exit
+9

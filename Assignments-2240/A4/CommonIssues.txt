@@ -1,0 +1,7 @@
+Missing Honor Pledge.
+Header doc: Missing program description.
+Code Formatting: Inconsistent indentation.
+Code Formatting: Inconsistent use of space.
+Missing function doc.
+Did not use the given file name.
+Did not set the name of the output file/s correctly.

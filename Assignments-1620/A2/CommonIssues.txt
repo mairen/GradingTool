@@ -1,0 +1,19 @@
+Not a proper program description.
+Code Formatting: Inconsistent Indentation.
+Mismatch UML.
+Missing method doc.
+Did not verify employee number; Did not verify gender.
+Did not set this.sales to 0.0
+Did not set this.hourWorded to 0.0
+Did not check if you have reached capacity.
+Should use employee instead of 100.
+Error when there are 100 employees in the array (full).
+Did not output there are none when there are none.
+Did not round down.
+Should not output error for 0.
+The \n in the beginning causes the output to not match the expected output.
+You still need "private" here, they don't default to "private".
+This round down is not needed and count produce incorrect result. For example, for wage = 11.12, the result should be 444.80, but your output is 444.79.
+Output does not match example output.
+Monetary value not formatted correctly.
+Should use polymorphism.

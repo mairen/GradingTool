@@ -1,0 +1,14 @@
+Library
+
+// Two users check out the same book
+1
+56754
+812550706
+
+// A error message should be printed out.
+1
+74686
+812550706
+
+// Exit
+5

@@ -1,0 +1,3 @@
+Enter infix expression: 3 - 5 ^ 9
+InvalidCharacterException: Invalid character: ^
+Enter infix expression: 1 / ( 6 - 4 )The postfix expression is: 1 6 4 - /The expression evaluates to: 0.5

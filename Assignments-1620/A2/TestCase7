@@ -1,0 +1,39 @@
+EmployeeDriver
+
+// Add 3 salary employees.
+2
+2
+Bc
+dcc
+M
+M
+10100
+y
+52000
+
+2
+2
+Bcc
+Acc
+M
+M
+10101
+y
+52000
+
+2
+2
+Acc
+Acc
+M
+M
+10102
+y
+52000
+
+// Sort by name
+4
+2
+
+// Exit
+9

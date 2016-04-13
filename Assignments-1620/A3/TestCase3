@@ -1,0 +1,70 @@
+MazeDriver
+
+4 // Random maze
+
+/*
+Sample output:
+===========
+Which Maze would you like?
+1. Maze 1
+2. Maze 2
+3. Maze 3
+4. Random
+Enter Choice: 4
+Generating Random Maze
+
+Your Maze
+
+###########
+##...#..#.#
+#.....#.###
+##...#.#..#
+#......#.##
+##.#..#..##
+###....#...
+#....#....#
+......#...#
+#....#.##.#
+#.#..#.#..#
+###########
+
+Solved
+Your Maze
+
+###########
+##...#..#.#
+#.....#.###
+##...#.#..#
+#...xx.#.##
+##.#xx#..##
+###xxxx#xxx
+#xxx.#xxx.#
+xx....#...#
+#....#.##.#
+#.#..#.#..#
+###########
+Path took 19 steps.
+
+===========
+Which Maze would you like?
+1. Maze 1
+2. Maze 2
+3. Maze 3
+4. Random
+Enter Choice: 4
+Generating Random Maze
+
+
+Your Maze
+
+############
+....#.#...#.
+#.#.....#.##
+##....#...##
+#.#....#...#
+#..###.#...#
+##.#..#...##
+############
+
+Not Solved
+*/

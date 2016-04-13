@@ -1,0 +1,7 @@
+wformat 85 data
+
+/*
+In case the program did not read input file name, but
+uses a fixed input file name "data". We test if the 
+rest of the program works correctly.
+*/

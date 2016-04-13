@@ -1,0 +1,36 @@
+Missing honor pledge.
+Incorrect honor pledge.
+Missing program description.
+Incorrect program description.
+I cannot compile your code.
+Unfinished.
+Unimplemented.
+Code Formatting: Inconsistent Indentation.
+Mismatch UML.
+Missing method doc.
+Incorrect method doc.
+Should use MAX_BOOKS instead of 3.
+Did not create list.
+Did not set numElements to 0;
+Did not reprompt.
+Did not try/catch InputMismatchException.
+Should set origCap to DEFCAP.
+Should use equals() to compare.
+Should use getKey().
+Should compare memberId.
+Did not use the returned Boolean value.
+Did not set memberId.
+Did not try/catch.
+Did not throw exception.
+You should not try/catch the exception you are throwing.
+Did not valiate size; Did not throw exception.
+Should not add if enlarge() did not actually increase the capacity of list.
+If current list length is less than one origCap away from max capacity, it should still grow to max capacity.
+Did not use enlarge(); Incorrect logic to determine when it's ok to add.
+Should be "list[findItem(item)]= list[numElements - 1]". Did not set null to the freed space.
+You did not check the last item because of "i < list.length-1".
+Did not validate index; Did not throw exception.
+"All ArrayLists must be created with the initial size of 5".
+Should initialize ArrayList to length 3.
+Test this with multiple checked out books and see why.
+Output does not match example.

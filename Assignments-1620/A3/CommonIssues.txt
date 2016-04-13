@@ -1,0 +1,20 @@
+Missing honor pledge.
+Incorrect honor pledge.
+Missing program description.
+Incorrect program description.
+Code Formatting: Inconsistent Indentation.
+Missing method doc.
+Mismatch UML.
+We don't have this method in the UML.
+Range of the size of random mazes is incorrect.
+Inside of random maze is not two thirds open.
+Should not use extra arrays to solve maze.
+Did not output the number of steps.
+The number of "X"s does not match steps.
+Program should finish after a successful run.
+"StackOverflowError" Exception.
+Did not validate user input.
+Did not catch InputMismatchException.
+Endless loop when trying to catch InputMismatchException. Try it.
+Did not check if r and c are in bounds.
+Output does not match example.

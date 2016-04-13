@@ -1,0 +1,17 @@
+I cannot compile your code.
+Unfinished.
+Unimplemented.
+Honor pledge: Missing.
+Honor pledge: Incorrect
+Header doc: Missing program description.
+Code Formatting: Incorrect indentation.
+Code Formatting: Inconsistent use of space.
+Method doc: Missing.
+Method doc: Incorrect format.
+Mismatch UML.
+Mismatch UML. Should use Float instead of float, Integer instead of int.
+Output format does not match example.
+Did not reprompt correctly.
+Exception when only input one number.
+Should not output error for 0.
+Should stop asking for number after receving 10 numbers.

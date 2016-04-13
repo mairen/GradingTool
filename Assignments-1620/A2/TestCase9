@@ -1,0 +1,38 @@
+EmployeeDriver
+
+// Add an hourly employee
+2
+1
+Bcc
+Dcc
+M
+M
+10000
+y
+11.12
+
+// Add another hourly employee
+2
+1
+Bcc
+Dcc
+M
+M
+10100
+y
+11.12
+
+// Remove employee 10000
+3
+10000
+
+// List hourly (Verify if 10100 was only listed once)
+1
+1
+
+// Back to main menu
+2
+4
+
+// Exit
+9

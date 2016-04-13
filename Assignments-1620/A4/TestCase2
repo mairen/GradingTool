@@ -1,0 +1,26 @@
+Library
+
+// Check out a book, then return it.
+
+// Check out
+1
+71245
+1592402038
+
+// List stock. Verify the book 1592402038 is not in stock.
+3
+
+// Return
+2
+71245
+1592402038
+
+// List Stock. Verify the last book in the list is 1592402038.
+3
+
+// List checked out. There should be none.
+4
+71245
+
+// Exit
+5

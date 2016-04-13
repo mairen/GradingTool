@@ -1,0 +1,276 @@
+Library Manager
+1. Check Out
+2. Return
+3. List Stock
+4. List Checked Out
+5. Exit
+Selection: 1
+
+Parker, Peter
+56754
+
+Spector, Marc
+74686
+
+Curry, Arthur
+71245
+
+Stark, Tony
+96785
+
+Queen, Oliver
+45267
+
+Member ID: 71245
+
+Ender's Game
+Card, Orson Scott
+812550706
+
+Breakfast of Champions
+Vonnegut, Kurt
+385334206
+
+The Alphabet of Manliness
+Maddox
+80652720
+
+A Condeferacy of Dunces
+Toole, John Kennedy
+141182865
+
+Dune
+Herbert, Frank
+441013597
+
+History of Western Philosophy
+Russell, Bertrand
+415325056
+
+Choke
+Palahniuk, Chuck
+307388921
+
+Me Talk Pretty One Day
+Sedaris, David
+316776963
+
+House of Leaves
+Danielewski, Mark
+375703768
+
+Eats, Shoots, & Leaves
+Truss, Lynne
+1592402038
+
+Book ISBN: 1592402038
+
+Curry, Arthur
+71245
+has checked out
+Eats, Shoots, & Leaves
+Truss, Lynne
+1592402038
+
+Library Manager
+1. Check Out
+2. Return
+3. List Stock
+4. List Checked Out
+5. Exit
+Selection: 3
+
+Ender's Game
+Card, Orson Scott
+812550706
+
+Breakfast of Champions
+Vonnegut, Kurt
+385334206
+
+The Alphabet of Manliness
+Maddox
+80652720
+
+A Condeferacy of Dunces
+Toole, John Kennedy
+141182865
+
+Dune
+Herbert, Frank
+441013597
+
+History of Western Philosophy
+Russell, Bertrand
+415325056
+
+Choke
+Palahniuk, Chuck
+307388921
+
+Me Talk Pretty One Day
+Sedaris, David
+316776963
+
+House of Leaves
+Danielewski, Mark
+375703768
+
+Library Manager
+1. Check Out
+2. Return
+3. List Stock
+4. List Checked Out
+5. Exit
+Selection: 2
+
+Parker, Peter
+56754
+
+Spector, Marc
+74686
+
+Curry, Arthur
+71245
+
+Stark, Tony
+96785
+
+Queen, Oliver
+45267
+
+Member ID: 71245
+
+Ender's Game
+Card, Orson Scott
+812550706
+
+Breakfast of Champions
+Vonnegut, Kurt
+385334206
+
+The Alphabet of Manliness
+Maddox
+80652720
+
+A Condeferacy of Dunces
+Toole, John Kennedy
+141182865
+
+Dune
+Herbert, Frank
+441013597
+
+History of Western Philosophy
+Russell, Bertrand
+415325056
+
+Choke
+Palahniuk, Chuck
+307388921
+
+Me Talk Pretty One Day
+Sedaris, David
+316776963
+
+House of Leaves
+Danielewski, Mark
+375703768
+
+Eats, Shoots, & Leaves
+Truss, Lynne
+1592402038
+
+Book ISBN: 1592402038
+
+Curry, Arthur
+71245
+has returned
+Eats, Shoots, & Leaves
+Truss, Lynne
+1592402038
+
+Library Manager
+1. Check Out
+2. Return
+3. List Stock
+4. List Checked Out
+5. Exit
+Selection: 3
+
+Ender's Game
+Card, Orson Scott
+812550706
+
+Breakfast of Champions
+Vonnegut, Kurt
+385334206
+
+The Alphabet of Manliness
+Maddox
+80652720
+
+A Condeferacy of Dunces
+Toole, John Kennedy
+141182865
+
+Dune
+Herbert, Frank
+441013597
+
+History of Western Philosophy
+Russell, Bertrand
+415325056
+
+Choke
+Palahniuk, Chuck
+307388921
+
+Me Talk Pretty One Day
+Sedaris, David
+316776963
+
+House of Leaves
+Danielewski, Mark
+375703768
+
+Eats, Shoots, & Leaves
+Truss, Lynne
+1592402038
+
+Library Manager
+1. Check Out
+2. Return
+3. List Stock
+4. List Checked Out
+5. Exit
+Selection: 4
+
+Parker, Peter
+56754
+
+Spector, Marc
+74686
+
+Curry, Arthur
+71245
+
+Stark, Tony
+96785
+
+Queen, Oliver
+45267
+
+Member ID: 71245
+
+Member does not have any books checked out.
+
+Library Manager
+1. Check Out
+2. Return
+3. List Stock
+4. List Checked Out
+5. Exit
+Selection: 5
+
+Exiting Library

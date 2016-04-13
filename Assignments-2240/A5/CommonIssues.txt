@@ -1,0 +1,7 @@
+Missing Honor Pledge.
+Header doc: Missing program description.
+Code Formatting: Inconsistent indentation.
+Code Formatting: Inconsistent use of space.
+Missing function doc.
+Did not use the given file name.
+You server still has memory error. It's only because the loki server zeroed the memory for you that you did not see it happen on loki.

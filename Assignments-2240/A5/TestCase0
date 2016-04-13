@@ -1,0 +1,10 @@
+client
+
+// Need to manually compile and launch server first.
+put Aaa1,Bbb2,C,10001,3.1
+__pause__ 1000
+put Aaa2,Bbb1,C,10002,3.0
+__pause__ 1000
+get lname
+__pause__ 1000
+stop

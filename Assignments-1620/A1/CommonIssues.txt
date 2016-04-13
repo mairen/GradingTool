@@ -1,0 +1,10 @@
+Code Formatting: Inconsistent Indentation.
+Mismatch UML.
+Missing method doc.
+Incorrect.
+Did not round down.
+Should not output error for 0.
+Did not verify employee number; Did not verify gender.
+Does not match expected output.
+Did not handle negative input.
+You still need "private" here, they don't default to "private".

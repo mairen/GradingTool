@@ -1,0 +1,58 @@
+Creating HourlyEmployee...
+
+12345
+Rogers, Steve A.
+Gender: M
+Status: Full Time
+Wage: 15.34
+Hours Worked: 0.00
+
+Creating SalaryEmployee...
+
+54321
+Pryde, Kitty X.
+Gender: F
+Status: Full Time
+Salary: 75101.28
+
+Creating CommissionEmployee...
+Employee Number invalid, please re-enter:
+33333
+
+33333
+Storm, Johnny F.
+Gender: F
+Status: Part Time
+Rate: 2.50
+Sales: 0.00
+
+Increasing Hourly's hours worked by 50.
+Increasing Commissions's sales by 150,000.
+
+Hourly Payout: 920.40
+Salary Payout: 1444.25
+Commission Payout: 3750.00
+
+Finding total bonus payout...
+Bonus Payout is 2866.63
+
+Applying annual raises and resetting week...
+12345
+Rogers, Steve A.
+Gender: M
+Status: Full Time
+Wage: 16.10
+Hours Worked: 0.00
+
+54321
+Pryde, Kitty X.
+Gender: F
+Status: Full Time
+Salary: 79607.35
+
+33333
+Storm, Johnny F.
+Gender: F
+Status: Part Time
+Rate: 2.70
+Sales: 0.00

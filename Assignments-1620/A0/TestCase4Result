@@ -1,0 +1,14 @@
+Welcome to the Simple List Class
+Enter a floating point value: 6.5
+Would you like to input another value (y or n)? y
+Enter a floating point value: -12.5
+Would you like to input another value (y or n)? y
+Enter a floating point value: 100
+Would you like to input another value (y or n)? n
+Value 1 = 6.500000
+Value 2 = -12.500000
+Value 3 = 100.000000
+Sum of all values = 94.000000
+Average of all values = 31.333334
+Largest value = 100.000000
+Smallest value = -12.500000

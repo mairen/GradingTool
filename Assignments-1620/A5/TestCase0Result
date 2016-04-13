@@ -1,0 +1,45 @@
+Empty Integer List
+Populating from front
+Length is: 5
+The list Integer List is: 4 3 2 1 0
+Populating from back
+Length is: 10
+The list Integer List is: 4 3 2 1 0 0 1 2 3 4
+Removing from front, then back
+Length is: 8
+The list Integer List is: 3 2 1 0 0 1 2 3
+4 not removed
+Length is: 8
+The list Integer List is: 3 2 1 0 0 1 2 3
+0 removed
+Length is: 7
+The list Integer List is: 3 2 1 0 1 2 3
+Value of 5 not found
+Value of 0 found at 3
+Value at position 3 being removed
+Length is: 6
+The list Integer List is: 3 2 1 1 2 3
+Removing element 0
+Length is: 5
+The list Integer List is: 2 1 1 2 3
+Removing from front
+Length is: 4
+The list Integer List is: 1 1 2 3
+Getting value at position 2
+Value at postion is 2
+Testing IndexOutOfBoundsException
+java.lang.IndexOutOfBoundsException: Integer List
+java.lang.IndexOutOfBoundsException: Integer List
+java.lang.IndexOutOfBoundsException: Integer List
+java.lang.IndexOutOfBoundsException: Integer List
+End of IOBE test
+Clearing if not empty
+Length is: 0
+Empty Integer List
+Testing EmptyListException
+EmptyListException: Integer List is empty
+EmptyListException: Integer List is empty
+EmptyListException: Integer List is empty
+EmptyListException: Integer List is empty
+EmptyListException: Integer List is empty
+End of EmptyListException test
