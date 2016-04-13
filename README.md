@@ -11,7 +11,7 @@ The documentation about how to use it is in the beginning of GradingTool.java. C
 
 The GradingTool uses CodeTester to test target program, so CodeTester must be compiled first.
 
-You see two CodeTesters, CodeTester and CodeTester-old:
+There are two CodeTesters: CodeTester and CodeTester-old.
 
 CodeTester-old feeds input to the target program and collects output from the target program as fast as possible. However, it cannot simulate what a user would see when he/she was manually running the program, that is to have the input lines properly positioned in the terminal window. 
 
