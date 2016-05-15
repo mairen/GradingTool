@@ -1,10 +1,17 @@
 /*
 --------------
+2016-05-14
+Mai Ren
+
+General code/documentation improvement with the help of eclipse. 
+Previously this code was only written in simple editors.
+
+--------------
 2016-01-29
 Mai Ren
 
 Use CodeTester to test programs.
-CodeTester should be compiled first.
+CodeTester must be compiled first.
 
 --------------
 2015-09-10
@@ -102,39 +109,39 @@ Oracle JDK 8
 */
 
 import java.io.*;
-import java.util.*;
-import java.nio.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import static java.nio.file.StandardCopyOption.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.border.*;
-import java.text.SimpleDateFormat;
+
+import static java.nio.file.StandardCopyOption.*;
 
 public class GradingTool extends JPanel implements ListSelectionListener, ActionListener {
-    //private static Charset _ENCODING = StandardCharsets.UTF_8;
-    
+	private static final long serialVersionUID = 1L;
+	
+	// Currently we support just these two languages.
     public enum Language {Java, C};
     
-    private static String FILE_NAME_FEEDBACK = "feedback.txt";
-    private static String FILE_NAME_COMMON_ISSUES = "CommonIssues.txt";
-    private static String PROGRAM_NAME = "Grading Tool";
-    private static String TEMP_FOLDER_NAME = "Temp";
-    private static String TEST_CASE_RESULT_FILE_NAME_SUFFIX = "Result";
-    private static String CODE_TESTER_FOLDER_NAME = "CodeTester";
+    private static final String FILE_NAME_FEEDBACK = "feedback.txt";
+    private static final String FILE_NAME_COMMON_ISSUES = "CommonIssues.txt";
+    private static final String PROGRAM_NAME = "Grading Tool";
+    private static final String TEMP_FOLDER_NAME = "Temp";
+    private static final String TEST_CASE_RESULT_FILE_NAME_SUFFIX = "Result";
+    private static final String CODE_TESTER_FOLDER_NAME = "CodeTester";
     
-    private int fontSizeAdjustment = 6;
+    private static final String NEW_LINE = "\n";
+
+    private static final int DEFAULT_FONT_SIZE = 16;
+    private int fontSizeAdjustment = 0;
 
     private JFrame frame;
     
@@ -166,12 +173,11 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     private JList<String> commonIssueList;
     private DefaultListModel<String> commonIssueListModel;
 
-    static private final String newline = "\n";
     JTextArea logTextArea;
     JTextArea outputTextArea;
     JTextArea pointsTextArea;
-    JTextArea feedbackLocationTextArea;// For a single item
-    JTextArea feedbackContentTextArea; // For a single item
+    JTextArea feedbackLocationTextArea;// The method or class the feedback in feedbackContentTextArea is referring to.
+    JTextArea feedbackContentTextArea; // The content of a feedback. 
     JTextArea feedbackTextArea; // For all feedbacks
     JTextArea fullPointsTextArea; 
     JTextArea totalPointsTextArea; 
@@ -188,6 +194,8 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     private int assignmentNum = -1;
     
     private Language language;
+    
+    // If we are currently on Windows or not
     private boolean m_bWindows = false;
     
     /**
@@ -412,7 +420,6 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
 
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
-        //add(rightPanel, BorderLayout.LINE_END);
         
         rightPanel.add(new JLabel("Output"), BorderLayout.PAGE_START);
         outputTextArea = new JTextArea();
@@ -428,7 +435,6 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         scViewerList.addListSelectionListener(this);
         scViewerList.setVisibleRowCount(5);
         JScrollPane scViewerListScrollPane = new JScrollPane(scViewerList);
-        //add(scViewerListScrollPane, BorderLayout.CENTER);
         
         //Create a split pane with the two scroll panes in it.
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scViewerListScrollPane, rightPanel);
@@ -455,6 +461,8 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     }
 
     private void setFont() {
+    	// Through experiments, I know at least one of these fonts is available on any of the three 
+    	// operating systems: Windows, OSX, Ubuntu.
         String[] fonts = {"Liberation Mono", "Ubuntu Mono", "Consolas", "Courier New", "Monospaced", "Courier"};
 
         for (String font : fonts) {
@@ -464,15 +472,20 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             int fontStyle = Font.BOLD;
             if (fontSizeAdjustment % 2 == 0)
                 fontStyle = Font.PLAIN;
+            
+            // The first step towards either end is Bold only, no size change.
             int sizeAdjustment = fontSizeAdjustment / 2;
 
-            scViewerList.setFont(new Font(font, fontStyle, 13 + sizeAdjustment));
-            outputTextArea.setFont(new Font(font, fontStyle, 13 + sizeAdjustment));
+            scViewerList.setFont(new Font(font, fontStyle, DEFAULT_FONT_SIZE + sizeAdjustment));
+            outputTextArea.setFont(new Font(font, fontStyle, DEFAULT_FONT_SIZE + sizeAdjustment));
             log("Font set to: " + font);
             return;
         }
     }
 
+    // Use this to find out what fonts a computer has.
+    // Use this when none of the predefined fonts are available.
+    /*
     private void listAllFonts() {
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         Font[] allfonts = env.getAllFonts();
@@ -481,6 +494,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             log(font.getFontName());
         }
     }
+    */
 
     private boolean hasFont(String fontName) {
         Font f = new Font(fontName, 0, 0);
@@ -490,6 +504,11 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             return false;
     }
     
+    /**
+     * Is the given file a source code file or not.
+     * @param fileName Absolute or relative path to a file.
+     * @return true if fileName is a source code file.
+     */
     private boolean isSourceCodeFile(String fileName) {
         fileName = fileName.toLowerCase();
         
@@ -561,7 +580,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             
             List<String> inputLines = readFile(feedbackFilePath);
             for (String line : inputLines)
-                feedbackTextArea.append(line + newline);
+                feedbackTextArea.append(line + NEW_LINE);
 
             calculatePoints();
         }
@@ -575,13 +594,35 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 boolean bInHeader = true;
                 int lineNum = 1;
                 for (String line: inputLines) {
+                	// Replace tab characters with 4 spaces to correct the indentation.
                     line = line.replaceAll("\t", "    ");
+                    
+                    /**
+                     * Todo: Replace open and close double quotation marks with ".
+                     * 
+                     * The source of this problem is students copy text from assignment
+                     * sheet into their source code to use as part of the documentation.
+                     * 
+                     * Sometimes they copy non-standard characters, causing compiling 
+                     * errors in their code. The only such characters that's causing 
+                     * the problem are open and close double quotation marks, the ones
+                     * that looked sideways. Replace them with the standard one ", the 
+                     * one that looked straight solves the problem.
+                     * 
+                     * Whether this will cause a compiling error is dependent on the 
+                     * compiling environment, but it's better to get it fixed.
+                     */
                     
                     if (bInHeader) {
                         if (line.indexOf("public") >= 0 &&
                             line.indexOf("class") >= 0 )
                             bInHeader = false;
                     }
+                    
+                    /**
+                     * In privacy mode, we replace any line that contains sensitive word
+                     * with a privacy text.
+                     */
                     if (buttonPrivacyOn.isSelected() && bInHeader) {
                         if (line.toLowerCase().indexOf("name") >= 0 ||
                             line.toLowerCase().indexOf("id") >= 0 ||
@@ -625,7 +666,14 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             
             String methodName = null;
             
-            // Look backwards for method name or class name
+            /** 
+             * Look backwards for method name or class name
+             * 
+             * When the user click a line of code in the code viewer, we try to find
+             * the name of the method this line of code belongs to.
+             * 
+             * Currently this is mostly reliable for Java code. 
+             */
             int lineNum = index;
             for (; lineNum >= 0; lineNum--) {
                 String line = scViewerListModel.getElementAt(lineNum).substring(7).replaceAll(";", " ").trim(); // Remove line number
@@ -654,7 +702,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             
             feedbackLocationTextArea.setText(location);
 
-            // Check for method doc
+            // Check method doc of the current method.
             if (methodName != null) {
                 int maxSearchLengh = 10;
                 String searchArea = "";
@@ -689,7 +737,12 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         }
     }
     
-    // Purely based on texts in feedbackTextArea
+    /**
+     * This is purely based on texts in feedbackTextArea.
+     * 
+     * The benefit of this is that the user can manually edit
+     * the content in feedbackTextArea should there be any error.
+     */
     private void calculatePoints() {
         String all = feedbackTextArea.getText();
         String lines[] = all.split("\\r?\\n");
@@ -713,6 +766,12 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         totalPointsTextArea.setText(Double.toString(fullPoints + total));
     }
     
+    /**
+     * Convert the content in the feedbackTextArea into something
+     * that can be directly copied to Blackboard as grading feedback.
+     * 
+     * All the deductions will be grouped by class.
+     */
     private void formatFeedback() {
         outputTextArea.setText(null);
         String all = feedbackTextArea.getText();
@@ -763,7 +822,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     }
     
     private void log(String log) {
-        outputTextArea.append(log + newline);
+        outputTextArea.append(log + NEW_LINE);
         //String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         //outputTextArea.append("[" + timeStamp + "]" + log + newline);
     }
@@ -816,6 +875,12 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         log("Assignment number is: " + assignmentNum);
     }
     
+    /**
+     * Find the path where the configuration for current assignment is located.
+     * 
+     * @return 	A relative path to the folder that contains the configuration
+     * 			for current assignment
+     */
     private String getAssignmentFolderName() {
         return "Assignments-" + courseID + File.separator + "A" + assignmentNum;
     }
@@ -957,7 +1022,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         else if (e.getSource() == addButton) {
             feedbackTextArea.append(pointsTextArea.getText() + " " 
                 + feedbackLocationTextArea.getText() + " "
-                + feedbackContentTextArea.getText() + newline);
+                + feedbackContentTextArea.getText() + NEW_LINE);
                 
             // Save to file, too.
             calculatePoints();
@@ -1013,7 +1078,13 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         try {
             inputLines = Files.readAllLines(path, StandardCharsets.UTF_8);
             
-            // Try other encodings, this part is not working very well
+            /**
+             * Try other encodings, this part is not working very well
+             * 
+             * Some international students have their computers setup in other
+             * languages, and they would save their source code in non-standard
+             * encodings, and resulting in compiling errors on other computers. 
+             */
             if (inputLines == null)
                 inputLines = Files.readAllLines(path, StandardCharsets.ISO_8859_1);
             if (inputLines == null)
@@ -1143,6 +1214,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 return null;
             }        
         }
+        // This is the code prior to switch to use CodeTester to do the testing.
         /*
         else if (language == Language.C) {            
             sections[0] = System.getProperty("user.dir") + File.separator + TEMP_FOLDER_NAME + File.separator + getCExecutableName(); // Use absolute path
@@ -1208,6 +1280,8 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 if (!Files.exists(path))
                     lines.add("Verification failed: Cannot find the compiled file.");
             }
+            
+            scanner.close();
         }
         else {
             Scanner scanner = new Scanner(new InputStreamReader(process.getInputStream()));
@@ -1271,6 +1345,9 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 String line = errorScanner.nextLine();
                 lines.add(line);
             }
+            
+            scanner.close();
+            errorScanner.close();
         }
         
         return lines.toArray(new String[lines.size()]);
@@ -1302,7 +1379,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     
         boolean error = false;
         
-        // A simple comparasion of number of lines.
+        // A simple comparison of number of lines.
         if (lines.size() > expectedLines.size()) {
             tmpLines.add("Output is longer than expected.");
             tmpLines.add("expectedLines.size() = " + expectedLines.size());
@@ -1435,7 +1512,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
 
     // This is for CSCI-2240 A5(client/server) only
     // Some students hardcode loki as the address of the server. This
-    // method replace it with localhost.
+    // method replaces it with localhost.
     private void CSCI2240_A5_FixServerAddress() {
         String clientFile = TEMP_FOLDER_NAME + File.separator + "client.c";
         
