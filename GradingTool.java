@@ -105,7 +105,6 @@ Ubuntu 14.10
 OSX 10.10
 
 Oracle JDK 8
-
 */
 
 import java.io.*;
@@ -126,9 +125,9 @@ import javax.swing.event.*;
 import static java.nio.file.StandardCopyOption.*;
 
 public class GradingTool extends JPanel implements ListSelectionListener, ActionListener {
-	private static final long serialVersionUID = 1L;
-	
-	// Currently we support just these two languages.
+    private static final long serialVersionUID = 1L;
+    
+    // Currently we support just these two languages.
     public enum Language {Java, C};
     
     private static final String FILE_NAME_FEEDBACK = "feedback.txt";
@@ -137,7 +136,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     private static final String TEMP_FOLDER_NAME = "Temp";
     private static final String TEST_CASE_RESULT_FILE_NAME_SUFFIX = "Result";
     private static final String CODE_TESTER_FOLDER_NAME = "CodeTester";
-    
+
     private static final String NEW_LINE = "\n";
 
     private static final int DEFAULT_FONT_SIZE = 16;
@@ -461,8 +460,8 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     }
 
     private void setFont() {
-    	// Through experiments, I know at least one of these fonts is available on any of the three 
-    	// operating systems: Windows, OSX, Ubuntu.
+        // Through experiments, I know at least one of these fonts is available on any of the three 
+        // operating systems: Windows, OSX, Ubuntu.
         String[] fonts = {"Liberation Mono", "Ubuntu Mono", "Consolas", "Courier New", "Monospaced", "Courier"};
 
         for (String font : fonts) {
@@ -594,7 +593,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 boolean bInHeader = true;
                 int lineNum = 1;
                 for (String line: inputLines) {
-                	// Replace tab characters with 4 spaces to correct the indentation.
+                    // Replace tab characters with 4 spaces to correct the indentation.
                     line = line.replaceAll("\t", "    ");
                     
                     /**
@@ -878,8 +877,8 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     /**
      * Find the path where the configuration for current assignment is located.
      * 
-     * @return 	A relative path to the folder that contains the configuration
-     * 			for current assignment
+     * @return A relative path to the folder that contains the configuration
+     *         for current assignment
      */
     private String getAssignmentFolderName() {
         return "Assignments-" + courseID + File.separator + "A" + assignmentNum;
@@ -929,7 +928,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 break;
             }
         }
-    }
+    }    
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == openButton) {
@@ -1246,7 +1245,6 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             log("This programming language is not supported yet.");
             return null;
         }
-        
         
         if (process == null) {
             log("Failed to start process");
