@@ -1,28 +1,17 @@
 EmployeeDriver
 
-// Add an hourly employee
+// Add 1 salary employee
 2
-1
-Older
-Dcc
-M
-M
-10000
-y
-11.12
-
-// Add another hourly employee
 2
-1
-Newer
-Dcc
+Acc
+Bcc
 M
 M
-10000
+10100
 y
-11.12
+52000
 
-// List hourly (Verify if only Older was listed)
+// List hourly (Verify a "No Employee" message was printed out.)
 1
 1
 
