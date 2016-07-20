@@ -1,0 +1,34 @@
+EmployeeDriver
+
+// Add an hourly employee
+2
+1
+Older
+Dcc
+M
+M
+10000
+y
+11.12
+
+// Add another hourly employee
+2
+1
+Newer
+Dcc
+M
+M
+10000
+y
+11.12
+
+// List hourly (Verify if only Older was listed)
+1
+1
+
+// Back to main menu
+2
+4
+
+// Exit
+9
