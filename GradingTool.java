@@ -1,5 +1,26 @@
 /*
 --------------
+2016-07-19
+Mai Ren
+
+Bugfix: 
+    A student added comment at the same line of the method definition.
+    Starting with "//". This has caused the algorithm of finding method
+    name to fail. Now this has been fixed.
+
+Add feature:
+* Auto select CodeTester.
+    Now that we have two CodeTesters, one for speed and the other one 
+    for the accuracy of the output. We can auto select which CodeTester
+    to use: 
+    
+    If the selected test case has a result file, then we select the
+    accurate but slow CodeTester so that we can compare if the output
+    is an exact match with the pre-defined output. Otherwise we select
+    the fast but inaccurate CodeTester for its speed.
+        
+
+--------------
 2016-05-14
 Mai Ren
 
@@ -135,7 +156,9 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     private static final String PROGRAM_NAME = "Grading Tool";
     private static final String TEMP_FOLDER_NAME = "Temp";
     private static final String TEST_CASE_RESULT_FILE_NAME_SUFFIX = "Result";
-    private static final String CODE_TESTER_FOLDER_NAME = "CodeTester";
+    private static final String CODE_TESTER_CLASS_NAME = "CodeTester";
+    private static final String CODE_TESTER_FAST_FOLDER_NAME = "CodeTester-old";
+    private static final String CODE_TESTER_ACCURATE_FOLDER_NAME = "CodeTester";
 
     private static final String NEW_LINE = "\n";
 
@@ -678,11 +701,8 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 String line = scViewerListModel.getElementAt(lineNum).substring(7).replaceAll(";", " ").trim(); // Remove line number
                 //log("Line = " + line);
                 // Remove "throws ..."
-                {
-                    int index1 = line.indexOf("throws");
-                    if (index1 > 0)
-                        line = line.substring(0, index1).trim();
-                }
+                line = cutString(line, "//");
+                line = cutString(line, "throws");
                 if ((language == Language.Java && line.startsWith("p") && (line.endsWith(")") || line.endsWith("{") || line.endsWith(","))) ||
                     (language == Language.C && Pattern.matches("^\\s*[a-z]+\\s+\\S+\\s*[(].*[)].*", line))) {
                     int index1 = line.indexOf("(");
@@ -734,6 +754,17 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             int index = commonIssueList.getSelectedIndex();
             feedbackContentTextArea.setText(commonIssueListModel.getElementAt(index));
         }
+    }
+    
+    /**
+     * If str contains from, then return the portion of str before the first
+     * occurance of from. Otherwise return str.
+     */
+    private String cutString(String str, String from) {
+        int index = str.indexOf(from);
+        if (index > 0)
+            str = str.substring(0, index).trim();
+        return str;
     }
     
     /**
@@ -1122,20 +1153,26 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                     if (f != null && !f.getName().equals(FILE_NAME_COMMON_ISSUES))
                         Files.copy(Paths.get(f.getAbsolutePath()), Paths.get(tempFolder.getAbsolutePath() + File.separator + f.getName()), REPLACE_EXISTING);
             }
-                
-            // Copy CodeTester to the temp folder
-            {
-                File file = new File(CODE_TESTER_FOLDER_NAME);
-                files = file.listFiles();
-                for (File f: files)
-                    if (f != null && f.getName().endsWith(".class"))
-                        Files.copy(Paths.get(f.getAbsolutePath()), Paths.get(tempFolder.getAbsolutePath() + File.separator + f.getName()), REPLACE_EXISTING);
-            }
         } catch (IOException e) {
             log("Error: " + e.getMessage());
         }
     }
-    
+      
+    private void copyCodeTester(String codeTestFolderName)
+    {
+        File tempFolder = new File(TEMP_FOLDER_NAME);
+        File file = new File(codeTestFolderName);
+        File[] files = file.listFiles();
+        
+        try {
+            for (File f: file.listFiles())
+                if (f != null && f.getName().endsWith(".class"))
+                    Files.copy(Paths.get(f.getAbsolutePath()), Paths.get(tempFolder.getAbsolutePath() + File.separator + f.getName()), REPLACE_EXISTING);
+        } catch (IOException e) {
+            log("Error: " + e.getMessage());
+        }
+    }
+
     private void runSelectedTestCase() {
         int index = testCaseList.getSelectedIndex();
         if (index < 0)
@@ -1163,7 +1200,14 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         // Read test case
         String testCaseFile = TEMP_FOLDER_NAME + File.separator + testCaseName;
         String testResultFile = testCaseFile + TEST_CASE_RESULT_FILE_NAME_SUFFIX;
+        
+        // Copy the correct CodeTester to the Temp folder.
+        if (!Files.exists(Paths.get(testResultFile)))
+            copyCodeTester(CODE_TESTER_FAST_FOLDER_NAME);
+        else
+            copyCodeTester(CODE_TESTER_ACCURATE_FOLDER_NAME);
 
+        // Read input lines from the test case file.
         List<String> inputLines = readFile(testCaseFile);
         
         // Get executable name and launching arguments
@@ -1184,7 +1228,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 if (bCompile)
                     pb = new ProcessBuilder("javac", executableName + ".java");
                 else
-                    pb = new ProcessBuilder("java", CODE_TESTER_FOLDER_NAME, testCaseName);
+                    pb = new ProcessBuilder("java", CODE_TESTER_CLASS_NAME, testCaseName);
                 pb.directory(new File(System.getProperty("user.dir") + File.separator + TEMP_FOLDER_NAME + File.separator));
                 process = pb.start();
             } catch (IOException e) {
@@ -1205,7 +1249,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 if (bCompile)
                     pb = new ProcessBuilder("gcc", "-Wall", "-ansi", "-pedantic", executableName + ".c");
                 else
-                    pb = new ProcessBuilder("java", CODE_TESTER_FOLDER_NAME, testCaseName);
+                    pb = new ProcessBuilder("java", CODE_TESTER_CLASS_NAME, testCaseName);
                 pb.directory(new File(System.getProperty("user.dir") + File.separator + TEMP_FOLDER_NAME + File.separator));
                 process = pb.start();
             } catch (IOException e) {
