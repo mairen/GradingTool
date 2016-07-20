@@ -12,10 +12,12 @@ different than manually testing in a normal terminal.
 By logging the timestamp for each input and output line,
 and adding a delay after each input so that we can 
 collect all the output for that input before feeding 
-the next input, we are new able to insert the input 
-lines to the correct position in the output collected.
+the next input, we are now able to insert the input 
+lines to the correct position in the collected output 
+lines.
+
 The result is the exact same output a user would see if
-he/she is testing the program in a normal terminal.
+he/she is testing the program manually in a terminal.
 
 ---------------
 2014-09-23
