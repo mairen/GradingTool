@@ -7,7 +7,7 @@ Add support for interactive programs.
 
 Previously we were unable to insert the input lines into
 the collected output lines, causing the output looks 
-different than if test in a normal terminal.
+different than manually testing in a normal terminal.
 
 By logging the timestamp for each input and output line,
 and adding a delay after each input so that we can 
