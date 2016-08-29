@@ -1,5 +1,28 @@
 /*
 --------------
+2016-08-29
+Mai Ren
+
+When posting formatted feedback to Blackboard grading feedback input area, the
+line breaks may be removed in certain conditions, cauins incorrect formatting.
+The percise cause was not found yet, but a fix is to use two line breaks when 
+we need a line break.
+
+A GUI option was added to provide 3 options:
+        ALL: Add an extra line after every single line.
+      CLASS: Add extra lines before and after class names only.
+        OFF: No extra lines.
+
+--------------
+2016-08-02
+Mai Ren
+
+Add feature:
+* Use "Others" as feedback location if the feedback location textarea was 
+empty.
+* Select "*" as points removed, if nothing was selected.
+
+--------------
 2016-07-19
 Mai Ren
 
@@ -159,6 +182,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     private static final String CODE_TESTER_CLASS_NAME = "CodeTester";
     private static final String CODE_TESTER_FAST_FOLDER_NAME = "CodeTester-old";
     private static final String CODE_TESTER_ACCURATE_FOLDER_NAME = "CodeTester";
+    private static final String DEFAULT_GRADING_LOCATION = "Others";
 
     private static final String NEW_LINE = "\n";
 
@@ -170,6 +194,9 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     JButton openButton, compileButton, testButton, addButton, saveButton, increaseFontSizeButton, decreaseFontSizeButton;
     JRadioButton buttonPrivacyOn;
     JRadioButton buttonPrivacyOff;
+    JRadioButton buttonFeedbackFormat1;
+    JRadioButton buttonFeedbackFormat2;
+    JRadioButton buttonFeedbackFormat3;
     
     // List students under current folder
     private JList<String> studentList;
@@ -286,6 +313,10 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         buttonPrivacyOff.addActionListener(this);
         privacyModePanel.add(buttonPrivacyOff);
         
+        ButtonGroup privateButtonGroup = new ButtonGroup();
+        privateButtonGroup.add(buttonPrivacyOn);
+        privateButtonGroup.add(buttonPrivacyOff);
+        
         JPanel fontSizePanel = new JPanel();
         fontSizePanel.setLayout(new GridLayout(1, 0));
         privacyModePanel.add(fontSizePanel);
@@ -300,10 +331,6 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         decreaseFontSizeButton.addActionListener(this);
         fontSizePanel.add(decreaseFontSizeButton);
 
-        ButtonGroup group = new ButtonGroup();
-        group.add(buttonPrivacyOn);
-        group.add(buttonPrivacyOff);
-        
         JPanel testPanel = new JPanel();
         testPanel.setLayout(new BorderLayout());
         mainControlPanel.add(testPanel);
@@ -391,26 +418,56 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         bottomPanel.add(new JScrollPane(feedbackTextArea), BorderLayout.CENTER);
         
         JPanel rightControlPanel = new JPanel();
-        rightControlPanel.setLayout(new GridLayout(0,1));
+        rightControlPanel.setLayout(new FlowLayout());
         bottomPanel.add(rightControlPanel, BorderLayout.LINE_END);
 
-        rightControlPanel.add(new JLabel("Full points:"));
+        JPanel formatFeedbackPanel = new JPanel();
+        formatFeedbackPanel.setLayout(new GridLayout(0,1));
+        rightControlPanel.add(formatFeedbackPanel);
+
+        formatFeedbackPanel.add(new JLabel("Extra lines"));
+        
+        buttonFeedbackFormat1 = new JRadioButton("ALL", false);
+        buttonFeedbackFormat1.addActionListener(this);
+        formatFeedbackPanel.add(buttonFeedbackFormat1);
+
+        buttonFeedbackFormat2 = new JRadioButton("CLASS", true);
+        buttonFeedbackFormat2.addActionListener(this);
+        formatFeedbackPanel.add(buttonFeedbackFormat2);
+
+        buttonFeedbackFormat3 = new JRadioButton("OFF", true);
+        buttonFeedbackFormat3.addActionListener(this);
+        formatFeedbackPanel.add(buttonFeedbackFormat3);
+
+        ButtonGroup feedbackFormatButtonGroup = new ButtonGroup();
+        feedbackFormatButtonGroup.add(buttonFeedbackFormat1);
+        feedbackFormatButtonGroup.add(buttonFeedbackFormat2);
+        feedbackFormatButtonGroup.add(buttonFeedbackFormat3);
+        
+        saveButton = new JButton("Process");
+        saveButton.setToolTipText("Format / Save the feedback to my left and calculate points.");
+        saveButton.setEnabled(false);
+        saveButton.addActionListener(this);
+        formatFeedbackPanel.add(saveButton);
+        
+        JPanel calcPointsPanel = new JPanel();
+        calcPointsPanel.setLayout(new GridLayout(0,1));
+        rightControlPanel.add(calcPointsPanel);
+        
+        calcPointsPanel.add(new JLabel("Full"));
+        calcPointsPanel.add(new JLabel("points:"));
         
         fullPointsTextArea = new JTextArea(1,4);
         fullPointsTextArea.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0)); 
-        rightControlPanel.add(fullPointsTextArea);
+        calcPointsPanel.add(fullPointsTextArea);
 
-        rightControlPanel.add(new JLabel("Total points:"));
-        
+        calcPointsPanel.add(new JLabel("Total"));
+        calcPointsPanel.add(new JLabel("points:"));
+       
         totalPointsTextArea = new JTextArea(1,4);
         totalPointsTextArea.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0)); 
         totalPointsTextArea.setEditable(false);
-        rightControlPanel.add(totalPointsTextArea);
-        
-        saveButton = new JButton("Format/Save");
-        saveButton.setEnabled(false);
-        saveButton.addActionListener(this);
-        rightControlPanel.add(saveButton);
+        calcPointsPanel.add(totalPointsTextArea);
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
@@ -803,7 +860,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
      * All the deductions will be grouped by class.
      */
     private void formatFeedback() {
-        outputTextArea.setText(null);
+        outputTextArea.setText("");
         String all = feedbackTextArea.getText();
         String lines[] = all.split("\\r?\\n");
 
@@ -833,15 +890,21 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 
                 if (classNameBase == null && i == 0) {
                     classNameBase = className;
-                    //log("");
+                    if (buttonFeedbackFormat2.isSelected() && outputTextArea.getText().length() != 0 )
+                        log("");
                     log(classNameBase);
-                    //log("");
+                    if (buttonFeedbackFormat1.isSelected() || buttonFeedbackFormat2.isSelected())
+                        log("");
                     log(sections[0] + " " + content);
+                    if (buttonFeedbackFormat1.isSelected())
+                        log("");
                     list.remove(0);
                     i--;
                 }
                 else if (classNameBase.equals(className)) {
                     log(sections[0] + " " + content);
+                    if (buttonFeedbackFormat1.isSelected())
+                        log("");
                     list.remove(i);
                     i--;
                 }
@@ -1050,6 +1113,14 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             runSelectedTestCase();
         }
         else if (e.getSource() == addButton) {
+            // Set some default values if none were given.
+            if (feedbackLocationTextArea.getText().trim().length() == 0)
+                feedbackLocationTextArea.setText(DEFAULT_GRADING_LOCATION);
+            if (pointsTextArea.getText().trim().length() == 0) {
+                pointsTextArea.setText(pointsListModel.getElementAt(0));
+                pointsList.setSelectedIndex(0);
+            }
+                
             feedbackTextArea.append(pointsTextArea.getText() + " " 
                 + feedbackLocationTextArea.getText() + " "
                 + feedbackContentTextArea.getText() + NEW_LINE);
