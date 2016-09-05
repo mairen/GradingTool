@@ -1,5 +1,16 @@
 /*
 --------------
+2016-09-05
+Mai Ren
+
+Add feature
+* Auto calculate total points after applying seconc chance or late submission
+factors. The result will be displayed as part of the formatted feedback for copy
+to Blackboard.
+* Display a title in the beginning of the formatted feedback for second chance
+and late submissions.
+
+--------------
 2016-08-29
 Mai Ren
 
@@ -172,7 +183,9 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     private static final long serialVersionUID = 1L;
     
     // Currently we support just these two languages.
-    public enum Language {Java, C};
+    private enum Language {Java, C};
+    
+    private enum SubmissionType {Normal, SecondChance, Late};
     
     private static final String FILE_NAME_FEEDBACK = "feedback.txt";
     private static final String FILE_NAME_COMMON_ISSUES = "CommonIssues.txt";
@@ -243,6 +256,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     private int assignmentNum = -1;
     
     private Language language;
+    private SubmissionType submissionType;
     
     // If we are currently on Windows or not
     private boolean m_bWindows = false;
@@ -830,7 +844,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
      * The benefit of this is that the user can manually edit
      * the content in feedbackTextArea should there be any error.
      */
-    private void calculatePoints() {
+    private double calculatePoints() {
         String all = feedbackTextArea.getText();
         String lines[] = all.split("\\r?\\n");
         
@@ -851,6 +865,8 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         } catch (Exception e) {}
         
         totalPointsTextArea.setText(Double.toString(fullPoints + total));
+        
+        return fullPoints + total;
     }
     
     /**
@@ -861,6 +877,19 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
      */
     private void formatFeedback() {
         outputTextArea.setText("");
+        
+        switch (submissionType) {
+            case SecondChance:
+                log("================");
+                log("Second chance:");
+                break;
+            case Late:
+                log("Late submission:");
+                break;
+            default:
+                break;
+        }
+
         String all = feedbackTextArea.getText();
         String lines[] = all.split("\\r?\\n");
 
@@ -890,7 +919,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 
                 if (classNameBase == null && i == 0) {
                     classNameBase = className;
-                    if (buttonFeedbackFormat2.isSelected() && outputTextArea.getText().length() != 0 )
+                    if ((buttonFeedbackFormat1.isSelected() || buttonFeedbackFormat2.isSelected()) && !outputTextArea.getText().endsWith("\n\n") )
                         log("");
                     log(classNameBase);
                     if (buttonFeedbackFormat1.isSelected() || buttonFeedbackFormat2.isSelected())
@@ -952,19 +981,28 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
 
     // A folder name will be like "CSCI-2240-2-F15-A1", we are trying to find the "1" as assignment number.
     private void getAssignmentNumber(String folderName) {
-        int index1 = folderName.indexOf("-A");
+        String name = folderName;
+        // For late and second chance submissions, "-L" or "-S" will be added to the end of the name. We need to remove those first.
+        if (name.endsWith("-S")) {
+            submissionType = SubmissionType.SecondChance;
+            name = name.substring(0, name.length() - 2);
+        }
+        else if (name.endsWith("-L")) {
+            submissionType = SubmissionType.Late;
+            name = name.substring(0, name.length() - 2);
+        }
+        else{
+            submissionType = SubmissionType.Normal;
+        }
+        
+        int index1 = name.lastIndexOf("-A");
         if (index1 < 0) {
             log("Cannot find assignment number in folder name.");
             return;
         }
         
-        // For late and second chance submissions, "-L" or "-S" will be added to the end of the name. We need to remove those first.
-        String str = folderName.substring(index1 + 2);
-        int index2 = str.indexOf("-");
-        if (index2 < 0)
-            assignmentNum = Integer.parseInt(str);
-        else 
-            assignmentNum = Integer.parseInt(str.substring(0, index2));
+        String str = name.substring(index1 + 2);
+        assignmentNum = Integer.parseInt(str);
         log("Assignment number is: " + assignmentNum);
     }
     
@@ -1134,7 +1172,30 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             formatFeedback();
                 
             // Save to file.
-            calculatePoints();
+            double points = calculatePoints();
+            double factor = 1;
+            switch (submissionType) {
+                case SecondChance:
+                    if (language == Language.Java)
+                        factor = 0.85;
+                    else if (language == Language.C)
+                        factor = 0.7;
+                    break;
+                case Late:
+                    if (language == Language.Java)
+                        factor = 0.65;
+                    else if (language == Language.C)
+                        factor = 0.5;
+                    break;
+                default:
+                    break;
+            }
+            log("");
+            if (factor == 1)
+                log("Total = " + points);
+            else
+                log("Total = " + points + " x " + factor + " = " + points * factor);
+            
             saveFeedback();
         }
         else if (e.getSource() == increaseFontSizeButton) {
@@ -1273,10 +1334,14 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         String testResultFile = testCaseFile + TEST_CASE_RESULT_FILE_NAME_SUFFIX;
         
         // Copy the correct CodeTester to the Temp folder.
-        if (!Files.exists(Paths.get(testResultFile)))
+        if (!Files.exists(Paths.get(testResultFile))) {
+            System.out.println("Selecting fast CodeTester.");
             copyCodeTester(CODE_TESTER_FAST_FOLDER_NAME);
-        else
+        }
+        else {
+            System.out.println("Selecting accurate CodeTester.");
             copyCodeTester(CODE_TESTER_ACCURATE_FOLDER_NAME);
+        }
 
         // Read input lines from the test case file.
         List<String> inputLines = readFile(testCaseFile);
