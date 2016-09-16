@@ -1,10 +1,12 @@
-Code Formatting: Inconsistent Indentation.
+Code Formatting: Incorrect Indentation.
 Mismatch UML.
 Missing method doc.
+Missing program description.
 Incorrect.
 Did not round down.
 Should not output error for 0.
 Did not verify employee number; Did not verify gender.
-Does not match expected output.
+Output does not match example output exactly.
+Output matches example output exactly.
 Did not handle negative input.
 You still need "private" here, they don't default to "private".
