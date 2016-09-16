@@ -1,5 +1,17 @@
 /*
 --------------
+2016-09-15
+Mai Ren
+
+Add feature
+* Allows multi intervel select in source code viewer.
+* Auto include line numbers in the feedback, group them into intervals.
+
+Improved
+* Method/function name finding.
+* Method/function doc checking.
+
+--------------
 2016-09-05
 Mai Ren
 
@@ -239,6 +251,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
     JTextArea outputTextArea;
     JTextArea pointsTextArea;
     JTextArea feedbackLocationTextArea;// The method or class the feedback in feedbackContentTextArea is referring to.
+    JTextArea feedbackLinesTextArea;// The lines the feedback in feedbackContentTextArea is referring to.
     JTextArea feedbackContentTextArea; // The content of a feedback. 
     JTextArea feedbackTextArea; // For all feedbacks
     JTextArea fullPointsTextArea; 
@@ -381,7 +394,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         mainControlPanel.add(pointsPanel);
 
         pointsTextArea = new JTextArea(1,4);
-        pointsTextArea.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0)); 
+        pointsTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK)); 
         pointsPanel.add(pointsTextArea, BorderLayout.PAGE_START);
         
         pointsListModel = new DefaultListModel<String>();
@@ -399,22 +412,32 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         pointsPanel.add(new JScrollPane(pointsList), BorderLayout.CENTER);
         
         JPanel feedbackPanel = new JPanel();
-        feedbackPanel.setLayout(new BorderLayout());
+        feedbackPanel.setLayout(new GridBagLayout());
         mainControlPanel.add(feedbackPanel);
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
         
         feedbackLocationTextArea = new JTextArea(1,20);
-        feedbackLocationTextArea.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0)); 
-        feedbackPanel.add(feedbackLocationTextArea, BorderLayout.PAGE_START);
+        feedbackLocationTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        c.gridy = 0;
+        feedbackPanel.add(feedbackLocationTextArea, c);
         
-        feedbackContentTextArea = new JTextArea(5,20);
-        feedbackContentTextArea.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0)); 
+        feedbackLinesTextArea = new JTextArea(1,20);
+        feedbackLinesTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK)); 
+        c.gridy = 1;
+        feedbackPanel.add(feedbackLinesTextArea, c);
+
+        feedbackContentTextArea = new JTextArea(4,20);
         feedbackContentTextArea.setLineWrap(true);
-        feedbackPanel.add(new JScrollPane(feedbackContentTextArea), BorderLayout.CENTER);
+        c.gridy = 2;
+        feedbackPanel.add(new JScrollPane(feedbackContentTextArea), c);
         
         addButton = new JButton("________ Add / Save ________");
         addButton.setEnabled(false);
         addButton.addActionListener(this);
-        feedbackPanel.add(addButton, BorderLayout.PAGE_END);
+        c.gridy = 3;
+        feedbackPanel.add(addButton, c);
         
         commonIssueListModel = new DefaultListModel<String>();
         commonIssueListModel.addElement("___________ Common Issues ___________");
@@ -472,14 +495,13 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         calcPointsPanel.add(new JLabel("points:"));
         
         fullPointsTextArea = new JTextArea(1,4);
-        fullPointsTextArea.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0)); 
+        fullPointsTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK)); 
         calcPointsPanel.add(fullPointsTextArea);
 
         calcPointsPanel.add(new JLabel("Total"));
         calcPointsPanel.add(new JLabel("points:"));
        
         totalPointsTextArea = new JTextArea(1,4);
-        totalPointsTextArea.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0)); 
         totalPointsTextArea.setEditable(false);
         calcPointsPanel.add(totalPointsTextArea);
 
@@ -524,7 +546,8 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         scViewerListModel.addElement("Source code viewer");
         scViewerList = new JList<String>(scViewerListModel);
         scViewerList.setEnabled(false);
-        scViewerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        // The default selection mode is multi interval.
+        //scViewerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         scViewerList.addListSelectionListener(this);
         scViewerList.setVisibleRowCount(5);
         JScrollPane scViewerListScrollPane = new JScrollPane(scViewerList);
@@ -747,57 +770,45 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             pointsTextArea.setText(pointsListModel.getElementAt(index));
         }
         else if (e.getSource() == scViewerList) {
+            if (fileList.getSelectedIndex() < 0) return;
+            
             feedbackLocationTextArea.setText(null);
             int index = scViewerList.getSelectedIndex();
             if (index < 0) return;
-            if (fileList.getSelectedIndex() < 0) return;
+            
+            // Update line numbers
+            feedbackLinesTextArea.setText(indicesToString(scViewerList.getSelectedIndices()));
+            
+            /**
+             * Do not repeat the rest of the work if the smallest selected
+             * index does not change.
+            static int lastSelectedIndex = -1;
+            if (index == lastSelectedIndex)
+                return;
+            lastSelectedIndex = index;
+             */
             
             // Use file name as class name
             String className = fileNames[fileList.getSelectedIndex()].getName();
             if (className.indexOf(".") >= 0)
                 className = className.substring(0, className.indexOf("."));
             
-            String methodName = null;
-            
-            /** 
-             * Look backwards for method name or class name
-             * 
-             * When the user click a line of code in the code viewer, we try to find
-             * the name of the method this line of code belongs to.
-             * 
-             * Currently this is mostly reliable for Java code. 
-             */
-            int lineNum = index;
-            for (; lineNum >= 0; lineNum--) {
-                String line = scViewerListModel.getElementAt(lineNum).substring(7).replaceAll(";", " ").trim(); // Remove line number
-                //log("Line = " + line);
-                // Remove "throws ..."
-                line = cutString(line, "//");
-                line = cutString(line, "throws");
-                if ((language == Language.Java && line.startsWith("p") && (line.endsWith(")") || line.endsWith("{") || line.endsWith(","))) ||
-                    (language == Language.C && Pattern.matches("^\\s*[a-z]+\\s+\\S+\\s*[(].*[)].*", line))) {
-                    int index1 = line.indexOf("(");
-                    if (index1 < 0)
-                        break;
-                    
-                    String str1 = line.substring(0, index1).trim();
-                    methodName = str1.substring(str1.lastIndexOf(" ") + 1);
-                    break;
-                }
-            }
+            // Get method/function name and line index
+            int[] methodNameLineIndex = new int[1];
+            String methodName = getMethodName(index, methodNameLineIndex);
             
             String location = className;
-            if (methodName != null)
+            if (methodName != null && methodName.length() > 0)
                 location += "." + methodName + "()";
             
             feedbackLocationTextArea.setText(location);
 
             // Check method doc of the current method.
             if (methodName != null) {
-                int maxSearchLengh = 10;
+                int maxSearchLengh = 12;
                 String searchArea = "";
                 
-                for (lineNum--; lineNum >= 0 && maxSearchLengh-- > 0; lineNum--) {
+                for (int lineNum = methodNameLineIndex[0] - 1; lineNum >= 0 && maxSearchLengh-- > 0; lineNum--) {
                     String line = scViewerListModel.getElementAt(lineNum);
                     
                     if (line.indexOf("}") >= 0 ||
@@ -809,6 +820,9 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 
                 int methodDocItemCount = 0;
                 String[] methodDocItems = {"method name", "parameters", "return value", "partners", "description"};
+                if (language == Language.C)
+                    methodDocItems[0] = "function name";
+                
                 for (String s : methodDocItems)
                     if (searchArea.indexOf(s) >= 0)
                         methodDocItemCount++;
@@ -825,6 +839,87 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             int index = commonIssueList.getSelectedIndex();
             feedbackContentTextArea.setText(commonIssueListModel.getElementAt(index));
         }
+    }
+    
+     /** 
+     * Look backwards for method name or class name
+     * 
+     * Input: index of the line to start the search.
+     * Return value: Name of the method that contains the given line.
+     *
+     * When the user click a line of code in the code viewer, we try to find
+     * the name of the method this line of code belongs to.
+     */
+    private String getMethodName(int index, int[] methodNameLineIndex) {
+        String methodName = null;
+        
+        for (; index >= 0; index--) {
+            // Remove line number
+            String line = scViewerListModel.getElementAt(index).substring(7).replaceAll(";", " ").trim();
+            
+            line = cutString(line, "//");
+            line = cutString(line, "throws");
+            
+            if (!(line.endsWith(")") || line.endsWith("{") || line.endsWith(",")))
+                continue;
+            
+            if (line.indexOf("=") >= 0)
+                continue;
+            
+            if ((language == Language.Java && line.startsWith("p")) ||
+                (language == Language.C && !line.startsWith("if ") && !line.startsWith("if(") && !line.startsWith("for ") && !line.startsWith("for(") && !line.startsWith("while ") && !line.startsWith("while(") && !line.startsWith("else ") &&
+                    Pattern.matches("^\\s*[a-z]+\\s+\\S+\\s*[(].*[)].*", line))) {
+                int index1 = line.indexOf("(");
+                if (index1 < 0)
+                    break;
+                
+                if (methodNameLineIndex != null && methodNameLineIndex.length > 0)
+                    methodNameLineIndex[0] = index;
+                
+                String str1 = line.substring(0, index1).trim();
+                methodName = str1.substring(str1.lastIndexOf(" ") + 1);
+                break;
+            }
+        }
+        
+        return methodName;
+    }
+    
+    /**
+     * Format indices into a string.
+     * Group continous indices into a single range.
+     *
+     * The returned string has a clean end(no comma, semicolon or spaces in the end).
+     */
+    private String indicesToString(int[] indices) {
+        if (indices == null || indices.length == 0)
+            return "";
+        
+        StringBuilder sb = new StringBuilder();
+        if (indices.length == 1)
+            sb.append("Line: ");
+        else
+            sb.append("Lines: ");
+        
+        int start = 0;
+        for (int i = 1; i <= indices.length; i++) {
+            if (i == indices.length || indices[i] != indices[i - 1] + 1) {
+                if (i == start + 1) {
+                    sb.append((indices[start] + 1) + ", ");
+                }
+                else if (i == start + 2) {
+                    sb.append((indices[start] + 1) + ", ");
+                    sb.append((indices[start + 1] + 1) + ", ");
+                }
+                else {
+                    sb.append((indices[start] + 1) + "~" + (indices[i - 1] + 1) + ", ");
+                }
+                start = i;
+            }
+        }
+        
+        sb.setLength(sb.length() - 2);
+        return sb.toString();
     }
     
     /**
@@ -1161,6 +1256,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 
             feedbackTextArea.append(pointsTextArea.getText() + " " 
                 + feedbackLocationTextArea.getText() + " "
+                + (feedbackLinesTextArea.getText().length() > 0 ? feedbackLinesTextArea.getText() + ". " : "")
                 + feedbackContentTextArea.getText() + NEW_LINE);
                 
             // Save to file, too.
@@ -1262,15 +1358,18 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             return inputLines;
     }
     
+    private void recursivelyDeleteFile(File target) {
+        for(File f : target.listFiles()) {
+            if (f.isDirectory())
+                recursivelyDeleteFile(f);
+            f.delete();
+        }
+    }
+    
     private void copyToTempFolder() {
         // Clear temp folder first
         File tempFolder = new File(TEMP_FOLDER_NAME);
-        File[] files = tempFolder.listFiles();
-        if (files != null) {
-            for(File f : files) {
-                f.delete();
-            }
-        }
+        recursivelyDeleteFile(tempFolder);
 
         try {
             // Copy source code files from user folder to temp folder
@@ -1280,8 +1379,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             // Copy everything in the assignment folder (except CommonIssues.txt) to temp folder.
             {
                 File file = new File(getAssignmentFolderName());
-                files = file.listFiles();
-                for (File f: files)
+                for (File f: file.listFiles())
                     if (f != null && !f.getName().equals(FILE_NAME_COMMON_ISSUES))
                         Files.copy(Paths.get(f.getAbsolutePath()), Paths.get(tempFolder.getAbsolutePath() + File.separator + f.getName()), REPLACE_EXISTING);
             }
@@ -1334,13 +1432,13 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         String testResultFile = testCaseFile + TEST_CASE_RESULT_FILE_NAME_SUFFIX;
         
         // Copy the correct CodeTester to the Temp folder.
-        if (!Files.exists(Paths.get(testResultFile))) {
-            System.out.println("Selecting fast CodeTester.");
-            copyCodeTester(CODE_TESTER_FAST_FOLDER_NAME);
-        }
-        else {
+        if (language == Language.C || Files.exists(Paths.get(testResultFile))) {
             System.out.println("Selecting accurate CodeTester.");
             copyCodeTester(CODE_TESTER_ACCURATE_FOLDER_NAME);
+        }
+        else {
+            System.out.println("Selecting fast CodeTester.");
+            copyCodeTester(CODE_TESTER_FAST_FOLDER_NAME);
         }
 
         // Read input lines from the test case file.
@@ -1357,15 +1455,19 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         log("----------");
         
         // Setting the command to compile and run the program depending on the language.
+        String tempFolder = System.getProperty("user.dir") + File.separator + TEMP_FOLDER_NAME + File.separator;
         Process process = null;
         if (language == Language.Java) {
             try {
                 ProcessBuilder pb = null;
-                if (bCompile)
-                    pb = new ProcessBuilder("javac", executableName + ".java");
-                else
+                if (bCompile) {
+                    pb = new ProcessBuilder("javac", "-d", ".", "@sources");
+                    //pb = new ProcessBuilder("javac", executableName + ".java");
+                }
+                else {
                     pb = new ProcessBuilder("java", CODE_TESTER_CLASS_NAME, testCaseName);
-                pb.directory(new File(System.getProperty("user.dir") + File.separator + TEMP_FOLDER_NAME + File.separator));
+                }
+                pb.directory(new File(tempFolder));
                 process = pb.start();
             } catch (IOException e) {
                 log(e.toString());
@@ -1386,7 +1488,7 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                     pb = new ProcessBuilder("gcc", "-Wall", "-ansi", "-pedantic", executableName + ".c");
                 else
                     pb = new ProcessBuilder("java", CODE_TESTER_CLASS_NAME, testCaseName);
-                pb.directory(new File(System.getProperty("user.dir") + File.separator + TEMP_FOLDER_NAME + File.separator));
+                pb.directory(new File(tempFolder));
                 process = pb.start();
             } catch (IOException e) {
                 log(e.toString());
