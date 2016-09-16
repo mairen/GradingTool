@@ -1,6 +1,12 @@
-Missing Honor Pledge.
+Missing Honor Pledge. Please note: If your honor pledge is incomplete or incorrect, your submission will not be graded. Please refer to "2240 Honor Pledge.pdf" for more details.
 Header doc: Missing program description.
-Code Formatting: Inconsistent indentation.
-Code Formatting: Inconsistent use of space.
+Code Formatting: Incorrect indentation.
 Missing function doc.
+Incorrect function doc.
+Incorrect definition of function.
+Incorrect range for difficulty 4.
+Need three messages for incorrect answer as well.
 Did not print the correct answer if user answered incorrectly.
+Should keep generating another num2 until you have one that's not zero.
+Return type should be void.
+Did not use the return value. (It's almost always a hint of error)
