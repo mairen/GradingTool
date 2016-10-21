@@ -1,70 +1,59 @@
-MazeDriver
+EmployeeDriver
 
-4 // Random maze
+// Add 5 salary employees.
+2
+2
+Accac
+Accbc
+M
+M
+10100
+y
+52000
 
-/*
-Sample output:
-===========
-Which Maze would you like?
-1. Maze 1
-2. Maze 2
-3. Maze 3
-4. Random
-Enter Choice: 4
-Generating Random Maze
+2
+2
+Acccc
+Accdc
+M
+M
+10101
+y
+52000
 
-Your Maze
+2
+2
+Accec
+Accfc
+M
+M
+10102
+y
+52000
 
-###########
-##...#..#.#
-#.....#.###
-##...#.#..#
-#......#.##
-##.#..#..##
-###....#...
-#....#....#
-......#...#
-#....#.##.#
-#.#..#.#..#
-###########
+2
+2
+Accgc
+Acchc
+M
+M
+10103
+y
+52000
 
-Solved
-Your Maze
+2
+2
+Accic
+Accjc
+M
+M
+10104
+y
+52000
 
-###########
-##...#..#.#
-#.....#.###
-##...#.#..#
-#...xx.#.##
-##.#xx#..##
-###xxxx#xxx
-#xxx.#xxx.#
-xx....#...#
-#....#.##.#
-#.#..#.#..#
-###########
-Path took 19 steps.
+// Search names
+8
+c3c
 
-===========
-Which Maze would you like?
-1. Maze 1
-2. Maze 2
-3. Maze 3
-4. Random
-Enter Choice: 4
-Generating Random Maze
-
-
-Your Maze
-
-############
-....#.#...#.
-#.#.....#.##
-##....#...##
-#.#....#...#
-#..###.#...#
-##.#..#...##
-############
-
-Not Solved
-*/
+// Exit
+9
