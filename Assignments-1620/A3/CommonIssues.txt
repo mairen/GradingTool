@@ -1,20 +1,28 @@
-Missing honor pledge.
-Incorrect honor pledge.
-Missing program description.
-Incorrect program description.
-Code Formatting: Inconsistent Indentation.
-Missing method doc.
+The program is largely unfinished. Please use late submission if you would like to submit again.
+Header doc: Not a proper program description.
+Header doc: Missing program description.
+Code Formatting: Incorrect Indentation.
 Mismatch UML.
-We don't have this method in the UML.
-Range of the size of random mazes is incorrect.
-Inside of random maze is not two thirds open.
-Should not use extra arrays to solve maze.
-Did not output the number of steps.
-The number of "X"s does not match steps.
-Program should finish after a successful run.
-"StackOverflowError" Exception.
-Did not validate user input.
-Did not catch InputMismatchException.
-Endless loop when trying to catch InputMismatchException. Try it.
-Did not check if r and c are in bounds.
-Output does not match example.
+Mismatch UML. No such method was defined.
+Missing method doc.
+Did not verify employee number; Did not verify gender.
+Did not set this.sales to 0.0
+Did not set this.hourWorded to 0.0
+Did not check if you have reached capacity.
+Should use employee instead of 10.
+Error when there are 10 employees in the array (full).
+Did not output there are none when there are none.
+Did not output there are none when there are other types of employees but not the type it want.
+Did not output the bonus.
+Did not round down.
+Should not change hoursWorked.
+Should not output error for 0.
+The \n in the beginning causes the output to not match the expected output.
+You still need "private" here, they don't default to "private".
+This round down is not needed and count produce incorrect result. For example, for wage = 11.12, the result should be 444.80, but your output is 444.79.
+Output does not match example output exactly.
+Output matches example output exactly.
+Monetary value not formatted correctly.
+Should use polymorphism.
+Incorrect round down.
+This is causing serious problems. Try search for an employee that's not the first one in the array.
