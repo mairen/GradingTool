@@ -1,5 +1,16 @@
 /*
 --------------
+2016-10-26
+Mai Ren
+
+Update support for 2240-A3.
+
+2240-A3 programs will redirect their stdin to /dev/tty. To auto send
+input to these programs, GradingTool will modify their source code and
+change this to a file, then create that file with the input for the 
+test case.
+
+--------------
 2016-09-15
 Mai Ren
 
@@ -712,6 +723,10 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
                 for (String line: inputLines) {
                     // Replace tab characters with 4 spaces to correct the indentation.
                     line = line.replaceAll("\t", "    ");
+                    
+                    // Replace blank lines with indentation check markings.
+                    //if (line.trim().length() == 0)
+                    //    line = "|---|---|---|---|";
                     
                     /**
                      * Todo: Replace open and close double quotation marks with ".
@@ -1478,8 +1493,14 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
             if (bCompile) {
                 /////////////////////
                 // Code for specific assignments
+                if (courseID == 2240 && assignmentNum == 3)
+                    CSCI2240_A3_UseAlternateInputFile(executableName + ".c");
                 if (courseID == 2240 && assignmentNum == 5)
                     CSCI2240_A5_FixServerAddress();
+            }
+            else {
+                if (courseID == 2240 && assignmentNum == 3)
+                    CSCI2240_A3_CreateTempInput(testCaseName);
             }
 
             try {
@@ -1817,6 +1838,67 @@ public class GradingTool extends JPanel implements ListSelectionListener, Action
         }
         catch (Exception e) {
             log("CSCI2240_A5_FixServerAddress: Failed to write back to file.");
+        }
+    }
+    
+    private void CSCI2240_A3_UseAlternateInputFile(String sourceCodeFileName) {
+        String fileFullPath = TEMP_FOLDER_NAME + File.separator + sourceCodeFileName;
+        List<String> lines = readFile(fileFullPath);
+        if (lines == null || lines.size() == 0) {
+            log("CSCI2240_A3_UseAlternateInputFile: Cannot find file: " + fileFullPath);
+            return;
+        }
+        
+        int count = 0;
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i).trim();
+            if (!line.startsWith("/") && line.indexOf("/dev/tty") >= 0) {
+                line = line.replace("/dev/tty", "tempinput");
+                lines.set(i, line);
+                log("CSCI2240_A3_UseAlternateInputFile: updated line " + (i + 1) + " to:");
+                log(line);
+                count++;
+            }
+        }
+        
+        try {
+            Files.write(Paths.get(fileFullPath), lines, StandardCharsets.UTF_8);
+        }
+        catch (Exception e) {
+            log("CSCI2240_A3_UseAlternateInputFile: Failed to write back to file.");
+        }
+    }
+    
+    private void CSCI2240_A3_CreateTempInput(String testCaseName) {
+        // Read test case
+        String testCaseFile = TEMP_FOLDER_NAME + File.separator + testCaseName;
+        String tempInputFile = TEMP_FOLDER_NAME + File.separator + "tempinput";
+        List<String> lines = readFile(testCaseFile);
+        if (lines == null || lines.size() == 0) {
+            log("CSCI2240_A3_CreateTempInput: Cannot find file: " + testCaseFile);
+            return;
+        }
+        if (lines.size() < 4) {
+            log("CSCI2240_A3_CreateTempInput: Testcase file does not contain user input lines: " + testCaseFile);
+            return;
+        }
+        
+        lines.remove(0);
+        
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i).trim();
+            if (line == null || line.length() == 0 || line.startsWith("/")) {
+                lines.remove(i);
+                i--;
+            }
+        }
+        
+        try {
+            Files.write(Paths.get(tempInputFile), lines, StandardCharsets.UTF_8);
+            log("CSCI2240_A3_CreateTempInput: User input file for " + testCaseName + " was created.");
+        }
+        catch (Exception e) {
+            log("CSCI2240_A3_CreateTempInput: Failed to write back to file.");
         }
     }
 }
